@@ -1,18 +1,12 @@
 # generative-design-clojure
 
-A Quil sketch designed to ... well, that part is up to you.
+This repository is clojure version of [generative-design/Code-Package-Processing-3.x](https://github.com/generative-design/Code-Package-Processing-3.x).
+
 
 ## Usage
 
-LightTable - open `core.clj` and press `Ctrl+Shift+Enter` to evaluate the file.
-
-Emacs - run cider, open `core.clj` and press `C-c C-k` to evaluate the file.
-
-REPL - run `(require 'generative-design-clojure.core)`.
+Emacs - run cider, open arbitrary clojure file and press `C-c C-k` to evaluate the file.
 
 ## License
 
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+The license is the same as [original repository](https://github.com/generative-design/Code-Package-Processing-3.x).
