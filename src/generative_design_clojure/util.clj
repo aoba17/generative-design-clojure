@@ -15,3 +15,11 @@
     :s (save-frame)
     nil)
   state)
+
+(defn re-map
+  " Re-maps a number from one range to another.
+  This works like Processing's map() function."
+  [value start1 stop1 start2 stop2]
+  (+ start2
+     (* (- stop2 start2)
+        (/ value (- stop1 start1)))))
