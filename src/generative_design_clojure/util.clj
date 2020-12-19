@@ -15,3 +15,21 @@
     :s (save-frame)
     nil)
   state)
+
+(defn sort-colors [colors & [method]]
+  (case method
+    :red        (->> colors (sort-by q/red) reverse)
+    :green      (->> colors (sort-by q/green) reverse)
+    :blue       (->> colors (sort-by q/blue) reverse)
+    :hue        (->> colors (sort-by q/hue) reverse)
+    :saturation (->> colors (sort-by q/saturation) reverse)
+    :brightness (->> colors (sort-by q/brightness) reverse)
+    :alpha      (->> colors (sort-by q/alpha) reverse)
+    :grayscale  (->> colors
+                     (sort-by
+                       (fn [color]
+                         (q/color (* (q/red color) 0.3)
+                                  (* (q/green color) 0.59)
+                                  (* (q/blue color) 0.11))))
+                     reverse)
+    colors))
