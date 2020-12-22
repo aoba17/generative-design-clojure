@@ -78,6 +78,7 @@
 
 (q/defsketch P_1_2_3_03
   :middleware [m/fun-mode]
+  :renderer :p3d
   :size [800 800]
   :setup setup
   :draw draw
