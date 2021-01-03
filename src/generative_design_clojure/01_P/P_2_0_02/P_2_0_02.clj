@@ -36,7 +36,7 @@
     (q/background 255))
   state)
 
-(q/defsketch P-2-0-01
+(q/defsketch P-2-0-02
   :middleware [m/fun-mode]
   :size [720 720]
   :setup setup
