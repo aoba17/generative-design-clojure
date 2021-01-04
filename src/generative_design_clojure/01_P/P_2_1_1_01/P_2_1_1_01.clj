@@ -11,7 +11,6 @@
 
 (defn draw [{:keys [act-stroke-cap act-random-seed]}]
   (q/background 255)
-  (q/smooth)
   (q/no-fill)
   (q/stroke-cap act-stroke-cap)
   (q/random-seed act-random-seed)
@@ -57,4 +56,5 @@
   :draw draw
   :mouse-pressed mouse-pressed
   :key-pressed util/key-controller
-  :key-released key-released)
+  :key-released key-released
+  :settings q/smooth)

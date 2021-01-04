@@ -5,7 +5,6 @@
 
 (defn draw [_]
   (q/stroke-cap :square)
-  (q/smooth)
   (q/no-fill)
   (q/background 255)
 
@@ -32,4 +31,5 @@
   :middleware [m/fun-mode]
   :size [550 550]
   :draw draw
-  :key-pressed util/key-controller)
+  :key-pressed util/key-controller
+  :settings q/smooth)

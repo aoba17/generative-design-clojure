@@ -5,7 +5,6 @@
 
 (defn setup []
   (q/color-mode :hsb 360 100 100 100)
-  (q/smooth)
   (q/no-fill)
   (q/background 360)
   {:stroke-color (q/color 0 10)})
@@ -48,4 +47,5 @@
   :setup setup
   :draw draw
   :key-pressed util/key-controller
-  :key-released key-released)
+  :key-released key-released
+  :settings q/smooth)

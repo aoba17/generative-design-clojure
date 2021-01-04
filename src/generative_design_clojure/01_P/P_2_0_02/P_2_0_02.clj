@@ -4,7 +4,6 @@
             [generative-design-clojure.util :as util]))
 
 (defn setup []
-  (q/smooth)
   (q/no-fill)
   (q/background 255)
   (q/stroke-weight 2)
@@ -42,4 +41,5 @@
   :setup setup
   :draw draw
   :key-pressed util/key-controller
-  :key-released key-released)
+  :key-released key-released
+  :settings q/smooth)
