@@ -62,31 +62,29 @@
                             alpha-right]
                      :as   state}
                     event]
-  (let [[lh ls lb] color-left
-        [rh rs rb] color-right]
-    (case (:key event)
-      :1 (assoc state :act-stroke-cap :round)
-      :2 (assoc state :act-stroke-cap :square)
-      :3 (assoc state :act-stroke-cap :project)
-      :4 (if (= (q/color lh ls lb) (q/color 0 0 0))
-           (assoc state :color-left [323 100 77])
-           (assoc state :color-left [0 0 0]))
-      :5 (if (= (q/color rh rs rb) (q/color 0 0 0))
-           (assoc state :color-right [273 73 51])
-           (assoc state :color-right [0 0 0]))
-      :6 (if (= alpha-left 100)
-           (assoc state :alpha-left 50)
-           (assoc state :alpha-left 100))
-      :7 (if (= alpha-right 100)
-           (assoc state :alpha-right 50)
-           (assoc state :alpha-right 100))
-      :0 (assoc state
-                :act-stroke-cap :round
-                :color-left [0 0 0]
-                :color-right [0 0 0]
-                :alpha-left 100
-                :alpha-right 100)
-      state)))
+  (case (:key event)
+    :1 (assoc state :act-stroke-cap :round)
+    :2 (assoc state :act-stroke-cap :square)
+    :3 (assoc state :act-stroke-cap :project)
+    :4 (if (= color-left [0 0 0])
+         (assoc state :color-left [323 100 77])
+         (assoc state :color-left [0 0 0]))
+    :5 (if (= color-right [0 0 0])
+         (assoc state :color-right [273 73 51])
+         (assoc state :color-right [0 0 0]))
+    :6 (if (= alpha-left 100)
+         (assoc state :alpha-left 50)
+         (assoc state :alpha-left 100))
+    :7 (if (= alpha-right 100)
+         (assoc state :alpha-right 50)
+         (assoc state :alpha-right 100))
+    :0 (assoc state
+              :act-stroke-cap :round
+              :color-left [0 0 0]
+              :color-right [0 0 0]
+              :alpha-left 100
+              :alpha-right 100)
+    state))
 
 (q/defsketch P-2-1-1-02
   :middleware [m/fun-mode]
