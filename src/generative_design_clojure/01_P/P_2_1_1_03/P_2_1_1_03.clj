@@ -89,7 +89,7 @@
               :color-left [323 100 77]
               :color-right [0 0 0])))
 
-(q/defsketch P-2-1-1-03L
+(q/defsketch P-2-1-1-03
   :middleware [m/fun-mode]
   :size [600 600]
   :setup setup
