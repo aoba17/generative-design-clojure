@@ -4,13 +4,14 @@
             [generative-design-clojure.util :as util]))
 
 (defn setup []
+  (q/color-mode :hsb 360 100 100 100)
   {:module-color-background  (q/color 0)
-   :module-color-foreground  (q/color 255)
+   :module-color-foreground  (q/color 360)
    :module-alpha-background  100
    :module-alpha-foreground  100
    :module-radius-background 30
    :module-radius-foreground 15
-   :back-color               (q/color 255)
+   :back-color               (q/color 360)
    :tile-count               20
    :act-random-seed          0})
 
@@ -25,9 +26,9 @@
                     act-random-seed]}]
   (q/translate (/ (q/width) tile-count 2)
                (/ (q/height) tile-count 2))
-  (q/background (q/red back-color)
-                (q/green back-color)
-                (q/blue back-color))
+  (q/background (q/hue back-color)
+                (q/saturation back-color)
+                (q/brightness back-color))
   (q/no-stroke)
   (q/random-seed act-random-seed)
 
@@ -39,9 +40,9 @@
                 pos-y   (* (/ (q/height) tile-count) grid-y)
                 shift-x (* (q/random -1 1) (/ (q/mouse-x) 20))
                 shift-y (* (q/random -1 1) (/ (q/mouse-y) 20))]
-            (q/fill (q/red module-color-background)
-                    (q/green module-color-background)
-                    (q/blue module-color-background)
+            (q/fill (q/hue module-color-background)
+                    (q/saturation module-color-background)
+                    (q/brightness module-color-background)
                     module-alpha-background)
             (q/ellipse (+ pos-x shift-x)
                        (+ pos-y shift-y)
@@ -56,9 +57,9 @@
         (when (< grid-x tile-count)
           (let [pos-x (* (/ (q/width) tile-count) grid-x)
                 pos-y (* (/ (q/height) tile-count) grid-y)]
-            (q/fill (q/red module-color-foreground)
-                    (q/green module-color-foreground)
-                    (q/blue module-color-foreground)
+            (q/fill (q/hue module-color-foreground)
+                    (q/saturation module-color-foreground)
+                    (q/brightness module-color-foreground)
                     module-alpha-foreground)
             (q/ellipse pos-x
                        pos-y
