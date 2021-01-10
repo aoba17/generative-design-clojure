@@ -48,7 +48,7 @@
 (defn mouse-pressed [state _]
   (assoc state :act-random-seed (q/random 100000)))
 
-(q/defsketch P-2-1-2-03
+(q/defsketch P-2-1-2-04
   :middleware [m/fun-mode]
   :size [600 600]
   :setup setup
