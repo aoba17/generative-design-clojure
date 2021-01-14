@@ -26,29 +26,23 @@
     (q/scale 1 (/ tile-height tile-width))
     (q/translate (/ tile-width 2)
                  (/ tile-height 2))
-    (loop [grid-y 0]
-      (when (< grid-y tile-count-y)
-        (loop [grid-x 0]
-          (when (< grid-x tile-count-x)
-            (q/with-translation [(* tile-width grid-x)
-                                 (* tile-height grid-y)]
-              (case (q/floor (q/random 4))
-                0 (q/rotate (q/radians -90))
-                1 (q/rotate 0)
-                2 (q/rotate (q/radians 90))
-                3 (q/rotate (q/radians 180)))
-              (loop [i 0]
-                (when (< i circle-count)
-                  (let [diameter (q/map-range i
-                                              0 (dec circle-count)
-                                              tile-width end-size)
-                        offset   (q/map-range i
-                                              0 (dec circle-count)
-                                              0 end-offset)]
-                    (q/ellipse offset 0 diameter diameter))
-                  (recur (inc i)))))
-            (recur (inc grid-x))))
-        (recur (inc grid-y))))))
+    (doseq [grid-y (range tile-count-y)]
+      (doseq [grid-x (range tile-count-x)]
+        (q/with-translation [(* tile-width grid-x)
+                             (* tile-height grid-y)]
+          (case (q/floor (q/random 4))
+            0 (q/rotate (q/radians -90))
+            1 (q/rotate 0)
+            2 (q/rotate (q/radians 90))
+            3 (q/rotate (q/radians 180)))
+          (doseq [i (range circle-count)]
+            (let [diameter (q/map-range i
+                                        0 (dec circle-count)
+                                        tile-width end-size)
+                  offset   (q/map-range i
+                                        0 (dec circle-count)
+                                        0 end-offset)]
+              (q/ellipse offset 0 diameter diameter))))))))
 
 (defn mouse-pressed [state _]
   (assoc state :act-random-seed (q/random 100000)))

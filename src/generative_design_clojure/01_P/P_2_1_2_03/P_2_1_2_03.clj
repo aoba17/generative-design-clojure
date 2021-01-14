@@ -22,18 +22,16 @@
             module-alpha)
   (q/stroke-weight 3)
 
-  (loop [grid-y 0]
-    (when (< grid-y (q/height))
-      (loop [grid-x 0]
-        (when (< grid-x (q/width))
-          (let [diameter (*  (/  (q/dist (q/mouse-x) (q/mouse-y)
-                                         grid-x grid-y)
-                                 max-distance)
-                             40)]
-            (q/with-translation [grid-x grid-y (* diameter 5)]
-              (q/rect 0 0 diameter diameter)))
-          (recur (+ grid-x 25))))
-      (recur (+ grid-y 25)))))
+  (doseq [grid-y (take (/ (q/height) 25)
+                       (iterate (partial + 25) 0))]
+    (doseq [grid-x (take (/ (q/width) 25)
+                         (iterate (partial + 25) 0))]
+      (let [diameter (*  (/  (q/dist (q/mouse-x) (q/mouse-y)
+                                     grid-x grid-y)
+                             max-distance)
+                         40)]
+        (q/with-translation [grid-x grid-y (* diameter 5)]
+          (q/rect 0 0 diameter diameter))))))
 
 (defn mouse-pressed [state _]
   (assoc state :act-random-seed (q/random 100000)))

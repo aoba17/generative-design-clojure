@@ -22,25 +22,21 @@
 (defn draw [{:keys [colors-left colors-right interpolate-shortest]}]
   (let [tile-width  (/ (q/width) tile-count-x)
         tile-height (/ (q/height) tile-count-y)]
-    (loop [grid-y 0]
-      (when (< grid-y tile-count-y)
-        (let [color-1 (nth colors-left grid-y)
-              color-2 (nth colors-right grid-y)]
-          (loop [grid-x 0]
-            (when (< grid-x tile-count-x)
-              (let [amount (q/map-range grid-x 0 (- tile-count-x 1) 0 1)]
-                (if interpolate-shortest
-                  (do
-                    (q/color-mode :rgb 255 255 255 255)
-                    (q/fill (q/lerp-color color-1 color-2 amount))
-                    (q/color-mode :hsb 360 100 100 100))
-                  (q/fill (q/lerp-color color-1 color-2 amount)))
-                (q/rect (* tile-width grid-x)
-                        (* tile-height grid-y)
-                        tile-width
-                        tile-height))
-              (recur (inc grid-x)))))
-        (recur (inc grid-y))))))
+    (doseq [grid-y (range tile-count-y)]
+      (let [color-1 (nth colors-left grid-y)
+            color-2 (nth colors-right grid-y)]
+        (doseq [grid-x (range tile-count-x)]
+          (let [amount (q/map-range grid-x 0 (- tile-count-x 1) 0 1)]
+            (if interpolate-shortest
+              (do
+                (q/color-mode :rgb 255 255 255 255)
+                (q/fill (q/lerp-color color-1 color-2 amount))
+                (q/color-mode :hsb 360 100 100 100))
+              (q/fill (q/lerp-color color-1 color-2 amount)))
+            (q/rect (* tile-width grid-x)
+                    (* tile-height grid-y)
+                    tile-width
+                    tile-height)))))))
 
 (defn toggle-interpolate-shortest [state event]
   (case (:key event)

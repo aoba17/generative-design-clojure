@@ -20,30 +20,22 @@
     (let [tile-count (/ (q/width) (max (q/mouse-x) 5))
           rect-size  (/ (q/width) tile-count)
           colors     (atom ())]
-      (loop [grid-y 0]
-        (when (< grid-y tile-count)
-          (loop [grid-x 0]
-            (when (< grid-x tile-count)
-              (let [px    (* grid-x rect-size)
-                    py    (* grid-y rect-size)
-                    color (q/get-pixel image px py)]
-                (swap! colors conj color))
-              (recur (inc grid-x))))
-          (recur (inc grid-y))))
+      (doseq [grid-y (range tile-count)]
+        (doseq [grid-x (range tile-count)]
+          (let [px    (* grid-x rect-size)
+                py    (* grid-y rect-size)
+                color (q/get-pixel image px py)]
+            (swap! colors conj color))))
 
       (let [sorted-colors (util/sort-colors @colors sort-mode)
             i             (atom 0)]
-        (loop [grid-y 0]
-          (when (< grid-y tile-count)
-            (loop [grid-x 0]
-              (when (< grid-x tile-count)
-                (q/fill (nth sorted-colors @i))
-                (q/rect (* grid-x rect-size)
-                        (* grid-y rect-size)
-                        rect-size rect-size)
-                (swap! i inc)
-                (recur (inc grid-x))))
-            (recur (inc grid-y))))))))
+        (doseq [grid-y (range tile-count)]
+          (doseq [grid-x (range tile-count)]
+            (q/fill (nth sorted-colors @i))
+            (q/rect (* grid-x rect-size)
+                    (* grid-y rect-size)
+                    rect-size rect-size)
+            (swap! i inc)))))))
 
 (defn key-control [state event]
   (case (:key event)

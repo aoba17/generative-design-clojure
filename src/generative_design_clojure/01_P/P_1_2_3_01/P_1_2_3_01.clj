@@ -28,21 +28,17 @@
                                           1 tile-count-y)
         tile-width           (/ (q/width) current-tile-count-x)
         tile-height          (/ (q/height) current-tile-count-y)]
-    (loop [grid-y 0]
-      (when (< grid-y tile-count-y)
-        (loop [grid-x 0]
-          (when (< grid-x tile-count-x)
-            (let [index (mod @counter current-tile-count-x)]
-              (q/fill (nth hue-values index)
-                      (nth saturation-values index)
-                      (nth brightness-values index))
-              (q/rect (* grid-x tile-width)
-                      (* grid-y tile-height)
-                      (* tile-width (+ (q/random 1) 1))
-                      tile-height)
-              (swap! counter inc))
-            (recur (inc grid-x))))
-        (recur (inc grid-y))))))
+    (doseq [grid-y (range tile-count-y)]
+      (doseq [grid-x (range tile-count-x)]
+        (let [index (mod @counter current-tile-count-x)]
+          (q/fill (nth hue-values index)
+                  (nth saturation-values index)
+                  (nth brightness-values index))
+          (q/rect (* grid-x tile-width)
+                  (* grid-y tile-height)
+                  (* tile-width (+ (q/random 1) 1))
+                  tile-height)
+          (swap! counter inc))))))
 
 (defn key-released [state event]
   (case (:key event)

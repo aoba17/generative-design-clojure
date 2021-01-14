@@ -32,41 +32,33 @@
   (q/no-stroke)
   (q/random-seed act-random-seed)
 
-  (loop [grid-y 0]
-    (when (< grid-y tile-count)
-      (loop [grid-x 0]
-        (when (< grid-x tile-count)
-          (let [pos-x   (* (/ (q/width) tile-count) grid-x)
-                pos-y   (* (/ (q/height) tile-count) grid-y)
-                shift-x (* (q/random -1 1) (/ (q/mouse-x) 20))
-                shift-y (* (q/random -1 1) (/ (q/mouse-y) 20))]
-            (q/fill (q/hue module-color-background)
-                    (q/saturation module-color-background)
-                    (q/brightness module-color-background)
-                    module-alpha-background)
-            (q/ellipse (+ pos-x shift-x)
-                       (+ pos-y shift-y)
-                       module-radius-background
-                       module-radius-background))
-          (recur (inc grid-x))))
-      (recur (inc grid-y))))
+  (doseq [grid-y (range tile-count)]
+    (doseq [grid-x (range tile-count)]
+      (let [pos-x   (* (/ (q/width) tile-count) grid-x)
+            pos-y   (* (/ (q/height) tile-count) grid-y)
+            shift-x (* (q/random -1 1) (/ (q/mouse-x) 20))
+            shift-y (* (q/random -1 1) (/ (q/mouse-y) 20))]
+        (q/fill (q/hue module-color-background)
+                (q/saturation module-color-background)
+                (q/brightness module-color-background)
+                module-alpha-background)
+        (q/ellipse (+ pos-x shift-x)
+                   (+ pos-y shift-y)
+                   module-radius-background
+                   module-radius-background))))
 
-  (loop [grid-y 0]
-    (when (< grid-y tile-count)
-      (loop [grid-x 0]
-        (when (< grid-x tile-count)
-          (let [pos-x (* (/ (q/width) tile-count) grid-x)
-                pos-y (* (/ (q/height) tile-count) grid-y)]
-            (q/fill (q/hue module-color-foreground)
-                    (q/saturation module-color-foreground)
-                    (q/brightness module-color-foreground)
-                    module-alpha-foreground)
-            (q/ellipse pos-x
-                       pos-y
-                       module-radius-foreground
-                       module-radius-foreground))
-          (recur (inc grid-x))))
-      (recur (inc grid-y)))))
+  (doseq [grid-y (range tile-count)]
+    (doseq [grid-x (range tile-count)]
+      (let [pos-x (* (/ (q/width) tile-count) grid-x)
+            pos-y (* (/ (q/height) tile-count) grid-y)]
+        (q/fill (q/hue module-color-foreground)
+                (q/saturation module-color-foreground)
+                (q/brightness module-color-foreground)
+                module-alpha-foreground)
+        (q/ellipse pos-x
+                   pos-y
+                   module-radius-foreground
+                   module-radius-foreground)))))
 
 (defn mouse-pressed [state _]
   (assoc state :act-random-seed (q/random 100000)))

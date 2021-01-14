@@ -17,14 +17,12 @@
           angle             (q/radians (/ 360 circle-resolution))]
       (q/stroke-weight (/ (q/mouse-y) 20))
       (q/begin-shape)
-      (loop [i 0]
-        (when (<= i circle-resolution)
-          (let [x (* radius (q/cos (* angle i)))
-                y (* radius (q/sin (* angle i)))]
-            (q/line 0 0 x y)
-            ;; (q/vertex x y)
-            )
-          (recur (inc i))))
+      (doseq [i (range (inc circle-resolution))]
+        (let [x (* radius (q/cos (* angle i)))
+              y (* radius (q/sin (* angle i)))]
+          (q/line 0 0 x y)
+          ;; (q/vertex x y)
+          ))
       (q/end-shape))))
 
 (q/defsketch P-2-0-01

@@ -25,41 +25,35 @@
   (let [counter    (atom 0)
         row-count  (q/random 5 40)
         row-height (/ (q/height) row-count)]
-    (loop [i 0]
-      (when (< i row-count)
-        (let [part-count (atom (+ i 1))
-              parts      (atom ())]
-          (loop [ii 0]
-            (when (< ii @part-count)
-              (if (< (q/random 1) 0.075)
-                (let [fragments (q/random 2 20)]
-                  (swap! part-count + fragments)
-                  (loop [iii 0]
-                    (when (< iii fragments)
-                      (swap! parts conj (q/random 2)))))
-                (swap! parts conj (q/random 2 20)))
-              (recur (inc ii))))
-          (let [sum-parts-total (reduce + @parts)
-                sum-parts-now   (atom 0)]
-            (loop [ii 0]
-              (when (< ii (count @parts))
-                (let [index (mod @counter color-count)]
-                  (q/fill (nth hue-values index)
-                          (nth saturation-values index)
-                          (nth brightness-values index))
-                  (swap! sum-parts-now + (nth @parts ii))
-                  (q/rect (q/map-range @sum-parts-now
-                                       0 sum-parts-total
-                                       0 (q/width))
-                          (* row-height i)
-                          (* (q/map-range (nth @parts ii)
-                                          0 sum-parts-total
-                                          0 (q/width))
-                             -1)
-                          row-height))
-                (swap! counter inc)
-                (recur (inc ii))))))
-        (recur (inc i)))))
+    (doseq [i (range row-count)]
+      (let [part-count (atom (+ i 1))
+            parts      (atom ())]
+        (doseq [_ (range @part-count)]
+          (if (< (q/random 1) 0.075)
+            (let [fragments (q/random 2 20)]
+              (swap! part-count + fragments)
+              (loop [iii 0]
+                (when (< iii fragments)
+                  (swap! parts conj (q/random 2)))))
+            (swap! parts conj (q/random 2 20))))
+        (let [sum-parts-total (reduce + @parts)
+              sum-parts-now   (atom 0)]
+          (doseq [ii @parts]
+            (let [index (mod @counter color-count)]
+              (q/fill (nth hue-values index)
+                      (nth saturation-values index)
+                      (nth brightness-values index))
+              (swap! sum-parts-now + ii)
+              (q/rect (q/map-range @sum-parts-now
+                                   0 sum-parts-total
+                                   0 (q/width))
+                      (* row-height i)
+                      (* (q/map-range ii
+                                      0 sum-parts-total
+                                      0 (q/width))
+                         -1)
+                      row-height))
+            (swap! counter inc))))))
   (q/no-loop))
 
 (defn mouse-released [state _]

@@ -21,12 +21,10 @@
                                  0.5)
             angle             (q/radians (/ 360 circle-resolution))]
         (q/begin-shape)
-        (loop [i 0]
-          (when (<= i circle-resolution)
-            (let [x (* radius (q/cos (* angle i)))
-                  y (* radius (q/sin (* angle i)))]
-              (q/vertex x y))
-            (recur (inc i))))
+        (doseq [i (range (inc circle-resolution))]
+          (let [x (* radius (q/cos (* angle i)))
+                y (* radius (q/sin (* angle i)))]
+            (q/vertex x y)))
         (q/end-shape)))))
 
 (defn key-released [state {:keys [key-code]}]

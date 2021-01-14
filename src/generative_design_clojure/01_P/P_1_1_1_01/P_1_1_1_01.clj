@@ -11,14 +11,12 @@
 (defn draw [_]
   (let [step-x (+ (q/mouse-x) 2)
         step-y (+ (q/mouse-y) 2)]
-    (loop [grid-y 0]
-      (when (< grid-y (q/height))
-        (loop [grid-x 0]
-          (when (< grid-x (q/width))
-            (q/fill grid-x (- (q/height) grid-y) 100)
-            (q/rect grid-x grid-y step-x step-y)
-            (recur (+ grid-x step-x))))
-        (recur (+ grid-y step-y))))))
+    (doseq [grid-y (take (/ (q/height) step-y)
+                         (iterate (partial + step-y) 0))]
+      (doseq [grid-x (take (/ (q/width) step-x)
+                           (iterate (partial + step-x) 0))]
+        (q/fill grid-x (- (q/height) grid-y) 100)
+        (q/rect grid-x grid-y step-x step-y)))))
 
 (q/defsketch P-1-1-1-01
   :middleware [m/fun-mode]

@@ -29,43 +29,39 @@
         tile-count (/ (q/mouse-y) 15)]
     (q/background bh bs bb)
 
-    (loop [grid-y 0]
-      (when (< grid-y tile-count)
-        (loop [grid-x 0]
-          (when (< grid-x tile-count)
-            (let [tile-size-x (/ (q/width) tile-count)
-                  tile-size-y (/ (q/height) tile-count)
-                  pos-x       (* tile-size-x grid-x)
-                  pos-y       (* tile-size-y grid-y)
-                  toggle      (q/floor (q/random 2))
-                  alpha-left  (if transparent-left
-                                (* grid-y 10)
-                                100)
-                  alpha-right (if transparent-right
-                                (- 100 (* grid-y 10))
-                                100)]
-              (when (= toggle 0)
-                (q/stroke lh ls lb alpha-left)
-                (q/line pos-x
-                        pos-y
-                        (+ pos-x (/ tile-size-x 2))
-                        (+ pos-y tile-size-y))
-                (q/line (+ pos-x (/ tile-size-x 2))
-                        pos-y
-                        (+ pos-x tile-size-x)
-                        (+ pos-y tile-size-y)))
-              (when (= toggle 1)
-                (q/stroke rh rs rb alpha-right)
-                (q/line pos-x
-                        (+ pos-y tile-size-y)
-                        (+ pos-x (/ tile-size-x 2))
-                        pos-y)
-                (q/line (+ pos-x (/ tile-size-x 2))
-                        (+ pos-y tile-size-y)
-                        (+ pos-x tile-size-x)
-                        pos-y)))
-            (recur (inc grid-x))))
-        (recur (inc grid-y))))))
+    (doseq [grid-y (range tile-count)]
+      (doseq [grid-x (range tile-count)]
+        (let [tile-size-x (/ (q/width) tile-count)
+              tile-size-y (/ (q/height) tile-count)
+              pos-x       (* tile-size-x grid-x)
+              pos-y       (* tile-size-y grid-y)
+              toggle      (q/floor (q/random 2))
+              alpha-left  (if transparent-left
+                            (* grid-y 10)
+                            100)
+              alpha-right (if transparent-right
+                            (- 100 (* grid-y 10))
+                            100)]
+          (when (= toggle 0)
+            (q/stroke lh ls lb alpha-left)
+            (q/line pos-x
+                    pos-y
+                    (+ pos-x (/ tile-size-x 2))
+                    (+ pos-y tile-size-y))
+            (q/line (+ pos-x (/ tile-size-x 2))
+                    pos-y
+                    (+ pos-x tile-size-x)
+                    (+ pos-y tile-size-y)))
+          (when (= toggle 1)
+            (q/stroke rh rs rb alpha-right)
+            (q/line pos-x
+                    (+ pos-y tile-size-y)
+                    (+ pos-x (/ tile-size-x 2))
+                    pos-y)
+            (q/line (+ pos-x (/ tile-size-x 2))
+                    (+ pos-y tile-size-y)
+                    (+ pos-x tile-size-x)
+                    pos-y)))))))
 
 (defn mouse-pressed [state _]
   (assoc state :act-random-seed (q/random 100000)))

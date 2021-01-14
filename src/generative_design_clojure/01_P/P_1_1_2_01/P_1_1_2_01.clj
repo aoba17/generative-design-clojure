@@ -16,16 +16,15 @@
         radius     center-x]
     (q/begin-shape :triangle-fan)
     (q/vertex center-x center-y)
-    (loop [angle 0]
-      (when (<= angle 360)
-        (q/vertex (+ center-x
-                     (* (q/cos (q/radians angle))
-                        radius))
-                  (+ center-y
-                     (* (q/sin (q/radians angle))
-                        radius)))
-        (q/fill angle (q/mouse-x) (q/mouse-y))
-        (recur (+ angle angle-step))))
+    (doseq [angle (take (inc (/ 360 angle-step))
+                        (iterate (partial + angle-step) 0))]
+      (q/vertex (+ center-x
+                   (* (q/cos (q/radians angle))
+                      radius))
+                (+ center-y
+                   (* (q/sin (q/radians angle))
+                      radius)))
+      (q/fill angle (q/mouse-x) (q/mouse-y)))
     (q/end-shape)))
 
 (defn key-control [state event]

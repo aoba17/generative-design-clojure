@@ -15,29 +15,25 @@
   (q/stroke-cap act-stroke-cap)
   (q/random-seed act-random-seed)
 
-  (loop [grid-y 0]
-    (when (< grid-y tile-count)
-      (loop [grid-x 0]
-        (when (< grid-x tile-count)
-          (let [tile-size-x (/ (q/width) tile-count)
-                tile-size-y (/ (q/height) tile-count)
-                pos-x       (* tile-size-x grid-x)
-                pos-y       (* tile-size-y grid-y)
-                toggle      (q/floor (q/random 2))]
-            (when (= toggle 0)
-              (q/stroke-weight (/ (q/mouse-x) 20))
-              (q/line pos-x
-                      pos-y
-                      (+ pos-x tile-size-x)
-                      (+ pos-y tile-size-y)))
-            (when (= toggle 1)
-              (q/stroke-weight (/ (q/mouse-y) 20))
-              (q/line pos-x
-                      (+ pos-y tile-size-y)
-                      (+ pos-x tile-size-x)
-                      pos-y)))
-          (recur (inc grid-x))))
-      (recur (inc grid-y)))))
+  (doseq [grid-y (range tile-count)]
+    (doseq [grid-x (range tile-count)]
+      (let [tile-size-x (/ (q/width) tile-count)
+            tile-size-y (/ (q/height) tile-count)
+            pos-x       (* tile-size-x grid-x)
+            pos-y       (* tile-size-y grid-y)
+            toggle      (q/floor (q/random 2))]
+        (when (= toggle 0)
+          (q/stroke-weight (/ (q/mouse-x) 20))
+          (q/line pos-x
+                  pos-y
+                  (+ pos-x tile-size-x)
+                  (+ pos-y tile-size-y)))
+        (when (= toggle 1)
+          (q/stroke-weight (/ (q/mouse-y) 20))
+          (q/line pos-x
+                  (+ pos-y tile-size-y)
+                  (+ pos-x tile-size-x)
+                  pos-y))))))
 
 (defn mouse-pressed [state _]
   (assoc state :act-random-seed (q/floor (q/random 100000))))

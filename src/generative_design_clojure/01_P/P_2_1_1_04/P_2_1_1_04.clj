@@ -29,54 +29,50 @@
                     size-mode
                     current-shape]}]
   (q/background 255)
-  (loop [grid-y 0]
-    (when (< grid-y tile-count)
-      (loop [grid-x 0]
-        (when (< grid-x tile-count)
-          (let [pos-x          (+ (* tile-width grid-x) (/ tile-width 2))
-                pos-y          (+ (* tile-height grid-y) (/ tile-height 2))
-                angle          (+ (q/atan2 (- (q/mouse-y) pos-y)
-                                           (- (q/mouse-x) pos-x))
-                                  (q/radians shape-angle))
-                new-shape-size (case size-mode
-                                 0 shape-size
-                                 1 (- (* shape-size 1.5)
-                                      (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
-                                                           pos-x pos-y)
-                                                   0 500
-                                                   5 shape-size))
-                                 2 (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
-                                                        pos-x pos-y)
-                                                0 500
-                                                5 shape-size))
-                shape-r        (q/red shape-color)
-                shape-g        (q/green shape-color)
-                shape-b        (q/blue shape-color)]
-            (case fill-mode
-              0 (.enableStyle current-shape)
-              1 (do (.disableStyle current-shape)
-                    (q/fill shape-color))
-              2 (do (.disableStyle current-shape)
-                    (q/fill shape-r shape-g shape-b
-                            (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
-                                                 pos-x pos-y)
-                                         0 max-dist
-                                         255 0)))
-              3 (do (.disableStyle current-shape)
-                    (q/fill shape-r shape-g shape-b
-                            (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
-                                                 pos-x pos-y)
-                                         0 max-dist
-                                         0 255))))
-            (q/with-translation [pos-x pos-y]
-              (q/rotate angle)
-              (q/shape-mode :center)
-              (q/no-stroke)
-              (q/shape current-shape
-                       0 0
-                       new-shape-size new-shape-size)))
-          (recur (inc grid-x))))
-      (recur (inc grid-y)))))
+  (doseq [grid-y (range tile-count)]
+    (doseq [grid-x (range tile-count)]
+      (let [pos-x          (+ (* tile-width grid-x) (/ tile-width 2))
+            pos-y          (+ (* tile-height grid-y) (/ tile-height 2))
+            angle          (+ (q/atan2 (- (q/mouse-y) pos-y)
+                                       (- (q/mouse-x) pos-x))
+                              (q/radians shape-angle))
+            new-shape-size (case size-mode
+                             0 shape-size
+                             1 (- (* shape-size 1.5)
+                                  (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
+                                                       pos-x pos-y)
+                                               0 500
+                                               5 shape-size))
+                             2 (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
+                                                    pos-x pos-y)
+                                            0 500
+                                            5 shape-size))
+            shape-r        (q/red shape-color)
+            shape-g        (q/green shape-color)
+            shape-b        (q/blue shape-color)]
+        (case fill-mode
+          0 (.enableStyle current-shape)
+          1 (do (.disableStyle current-shape)
+                (q/fill shape-color))
+          2 (do (.disableStyle current-shape)
+                (q/fill shape-r shape-g shape-b
+                        (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
+                                             pos-x pos-y)
+                                     0 max-dist
+                                     255 0)))
+          3 (do (.disableStyle current-shape)
+                (q/fill shape-r shape-g shape-b
+                        (q/map-range (q/dist (q/mouse-x) (q/mouse-y)
+                                             pos-x pos-y)
+                                     0 max-dist
+                                     0 255))))
+        (q/with-translation [pos-x pos-y]
+          (q/rotate angle)
+          (q/shape-mode :center)
+          (q/no-stroke)
+          (q/shape current-shape
+                   0 0
+                   new-shape-size new-shape-size))))))
 
 (defn key-released [{:keys [tile-count]
                      :as   state}
