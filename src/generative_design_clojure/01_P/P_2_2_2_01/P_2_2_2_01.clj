@@ -8,7 +8,7 @@
 (def min-length 10)
 
 (defn get-random-angle [direction]
-  (let [a (*  (+ (q/floor (- (q/random angle-count) angle-count)) 0.5)
+  (let [a (*  (+ (q/floor (q/random (- angle-count) angle-count)) 0.5)
               (/ 90 angle-count))]
     (case direction
       :north (- a 90)
