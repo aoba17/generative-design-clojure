@@ -92,7 +92,7 @@
   (reset! is-mouse-pressed false)
   state)
 
-(q/defsketch P-2-2-4-02
+(q/defsketch P-2-2-5-01
   :middleware [m/fun-mode]
   :size [800 800]
   :setup setup
