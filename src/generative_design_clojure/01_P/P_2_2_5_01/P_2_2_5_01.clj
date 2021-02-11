@@ -81,8 +81,8 @@
 
 (defn key-released [state event]
   (case (:key event)
-    :up   (update state :mouse-rect inc 4)
-    :down (update state :mouse-rect dec 4)))
+    :up   (update state :mouse-rect + 4)
+    :down (update state :mouse-rect - 4)))
 
 (defn mouse-pressed [state _]
   (reset! is-mouse-pressed true)
