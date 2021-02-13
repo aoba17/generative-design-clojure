@@ -8,7 +8,6 @@
 (def max-count 5000)
 (def min-radius 3)
 (def max-radius 50)
-(def is-mouse-pressed (atom false))
 
 (defn setup []
   (q/no-fill)
@@ -29,15 +28,15 @@
 (defn update-state [{:keys [freeze current-count mouse-rect x y r]
                      :as   state}]
   (if-not freeze
-    (let [tx           (if @is-mouse-pressed
+    (let [tx           (if (q/mouse-pressed?)
                          (q/random (- (q/mouse-x) (/ mouse-rect 2))
                                    (+ (q/mouse-x) (/ mouse-rect 2)))
                          (q/random max-radius (- (q/width) max-radius)))
-          ty           (if @is-mouse-pressed
+          ty           (if (q/mouse-pressed?)
                          (q/random (- (q/mouse-y) (/ mouse-rect 2))
                                    (+ (q/mouse-y) (/ mouse-rect 2)))
                          (q/random max-radius (- (q/height) max-radius)))
-          tr           (if @is-mouse-pressed
+          tr           (if (q/mouse-pressed?)
                          1
                          min-radius)
           intersection (atom false)]
@@ -97,7 +96,7 @@
                 (nth x (nth closest-index i))
                 (nth y (nth closest-index i))))))
 
-  (when @is-mouse-pressed
+  (when (q/mouse-pressed?)
     (q/stroke 255 200 0)
     (q/stroke-weight 2)
     (q/rect (- (q/mouse-x) (/ mouse-rect 2))
@@ -117,22 +116,12 @@
     :down (update state :mouse-rect - 4)
     state))
 
-(defn mouse-pressed [state _]
-  (reset! is-mouse-pressed true)
-  state)
-
-(defn mouse-released [state _]
-  (reset! is-mouse-pressed false)
-  state)
-
 (q/defsketch P-2-2-5-02
   :middleware [m/fun-mode]
   :size [800 800]
   :setup setup
   :update update-state
   :draw draw
-  :mouse-pressed mouse-pressed
-  :mouse-released mouse-released
   :key-pressed util/key-controller
   :key-released key-released
   :settings q/smooth)

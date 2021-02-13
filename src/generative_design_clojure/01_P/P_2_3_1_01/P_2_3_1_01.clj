@@ -3,8 +3,6 @@
             [quil.middleware :as m]
             [generative-design-clojure.util :as util]))
 
-(def is-mouse-pressed (atom false))
-
 (defn setup []
   (q/background 255)
   (q/cursor :cross)
@@ -15,12 +13,12 @@
 
 (defn update-state [{:keys [angle-speed]
                      :as   state}]
-  (if @is-mouse-pressed
+  (if (q/mouse-pressed?)
     (update state :angle + angle-speed)
     state))
 
 (defn draw [{:keys [color line-length angle]}]
-  (when @is-mouse-pressed
+  (when (q/mouse-pressed?)
     (q/stroke-weight 1)
     (q/no-fill)
     (q/stroke (q/red color)
@@ -54,12 +52,7 @@
     state))
 
 (defn mouse-pressed [state _]
-  (reset! is-mouse-pressed true)
   (assoc state :line-length (q/random 70 200)))
-
-(defn mouse-released [state _]
-  (reset! is-mouse-pressed false)
-  state)
 
 (q/defsketch P-2-3-1-01
   :middleware [m/fun-mode]
@@ -68,7 +61,6 @@
   :update update-state
   :draw draw
   :mouse-pressed mouse-pressed
-  :mouse-released mouse-released
   :key-pressed util/key-controller
   :key-released key-released
   :settings q/smooth)
