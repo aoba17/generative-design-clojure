@@ -49,8 +49,8 @@
     :4     (assoc state :color (q/color 197 0 123 100))
     :up    (update state :line-length + 5)
     :down  (update state :line-length - 5)
-    :left  (update state :angle-speed - 5)
-    :right (update state :angle-speed + 5)
+    :left  (update state :angle-speed - 0.5)
+    :right (update state :angle-speed + 0.5)
     state))
 
 (defn mouse-pressed [state _]
