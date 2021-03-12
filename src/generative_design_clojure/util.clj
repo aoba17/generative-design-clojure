@@ -12,7 +12,8 @@
 
 (defn key-controller [state {:keys [key]}]
   (case key
-    :s (save-frame)
+    :s   (save-frame)
+    :esc (q/exit)
     nil)
   state)
 
