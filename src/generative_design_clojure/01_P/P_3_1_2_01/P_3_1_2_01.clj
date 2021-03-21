@@ -30,7 +30,7 @@
    :questionmark    (q/load-shape (str data-location "questionmark.svg"))
    :return          (q/load-shape (str data-location "return.svg"))})
 
-(defn draw [{:keys [text-typed center-x center-y offset-x offset-y
+(defn draw [{:keys [text-typed center-x center-y
                     zoom act-random-seed space space2 period comma
                     exclamationmark questionmark return]}]
   (q/background 255)
@@ -70,13 +70,10 @@
   (when (= (mod (/ (q/frame-count) 6) 2) 0)
     (q/rect 0 0 15 2)))
 
-(defn mouse-pressed [{:keys [center-x
-                             center-y]
-                      :as   state}
-                     {:keys [x y]}]
+(defn mouse-pressed [state {:keys [x y]}]
   (assoc state
-         :offset-x (- x center-x)
-         :offset-y (- y center-y)))
+         :center-x x
+         :center-y y))
 
 (defn key-released [state event]
   (case (:key event)
