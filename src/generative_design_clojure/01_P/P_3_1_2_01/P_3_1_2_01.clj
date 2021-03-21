@@ -18,8 +18,6 @@
                          "Kontrolliere\nUnd komponiere\nUnd wenn ich diese Taste drück,\nSpielt er ein kleines Musikstück?\n\n")
    :center-x        (/ (q/width) 2)
    :center-y        (/ (q/height) 2)
-   :offset-x        0
-   :offset-y        0
    :zoom            0.75
    :act-random-seed 6
    :space           (q/load-shape (str data-location "space.svg"))
