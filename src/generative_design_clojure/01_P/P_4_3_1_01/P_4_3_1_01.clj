@@ -119,7 +119,8 @@
     :6 (assoc state :draw-mode 6)
     :7 (assoc state :draw-mode 7)
     :8 (assoc state :draw-mode 8)
-    :9 (assoc state :draw-mode 9)))
+    :9 (assoc state :draw-mode 9)
+    state))
 
 (q/defsketch P-4-3-1-01
   :middleware [m/fun-mode]
