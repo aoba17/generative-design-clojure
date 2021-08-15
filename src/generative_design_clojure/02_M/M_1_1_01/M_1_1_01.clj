@@ -43,7 +43,7 @@
     :s (util/save-frame))
   state)
 
-(q/defsketch M_1_1_01
+(q/defsketch M-1-1-01
   :middleware [m/fun-mode]
   :size [1024 256]
   :setup setup
