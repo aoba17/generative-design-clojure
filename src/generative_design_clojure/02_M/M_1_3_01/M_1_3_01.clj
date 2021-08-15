@@ -11,9 +11,7 @@
   (q/no-fill)
   (let [noise-range (/ (q/mouse-x) 10)]
     (q/begin-shape)
-    (doseq [x (->> (q/width)
-                   (range)
-                   (filter #(= (mod % 10) 0)))]
+    (doseq [x (range 0 (q/width) 10)]
       (let [noise-x (q/map-range x 0 (q/width) 0 noise-range)
             y       (* (q/noise noise-x) (q/height))]
         (q/vertex x y)))
